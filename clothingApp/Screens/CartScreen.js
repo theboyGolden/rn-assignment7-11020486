@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, FlatList, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
+import { SafeAreaView, View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function CartScreen() {
+export default function CartScreen({ navigation }) {
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
@@ -33,7 +33,7 @@ export default function CartScreen() {
 
     const calculateTotalPrice = () => {
         return cartItems.reduce((total, item) => {
-            const price = parseFloat(item.price.replace('$', ''));
+            const price = parseFloat(String(item.price).replace('$', ''));
             return total + (isNaN(price) ? 0 : price);
         }, 0).toFixed(2);
     };
@@ -59,27 +59,28 @@ export default function CartScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Header /> <br />
+            <Header />
             <Text style={{ fontFamily: 'Verdana', fontWeight: '500', fontSize: 26, textAlign: 'center' }}>Checkout</Text>
             <FlatList
                 data={cartItems}
                 renderItem={({ item }) => (
-                    <View style={styles.item}>
-                        <Image source={item.image} style={styles.itemImage} />
-                        <View style={{ marginTop: 20, marginLeft: 10 }}>
-                            <Text style={styles.itemText}>{item.value}</Text>
-                            <Text style={styles.descriptionText}>{item.description}</Text>
-                            <Text style={styles.price}>{item.price}</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('ProductDetailScreen', { product: item })}>
+                        <View style={styles.item}>
+                            <Image source={{ uri: item.image }} style={styles.itemImage} />
+                            <View style={styles.detaildiv}>
+                                <Text style={styles.itemText}>{item.title}</Text>
+                                <Text style={styles.price}>{item.price}</Text>
+                            </View>
+                            <TouchableOpacity 
+                                style={{ marginLeft: 30, paddingTop: 20 }} 
+                                onPress={() => removeFromCart(item.key)}
+                            >
+                                <Image source={require('../assets/remove.png')} style={styles.removefromCartIcon} />
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity 
-                            style={{ marginLeft: 30, paddingTop: 100 }} 
-                            onPress={() => removeFromCart(item.key)}
-                        >
-                            <Image source={require('../assets/remove.png')} style={styles.removefromCartIcon} />
-                        </TouchableOpacity>
-                    </View>
+                    </TouchableOpacity>
                 )}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item, index) => item.key ? item.key.toString() : index.toString()}
                 ListFooterComponent={<Footer />}
             />
         </SafeAreaView>
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: '#f4f4f4',
         borderRadius: 10,
+        alignItems: 'center',
     },
     itemText: {
         color: '#000',
@@ -145,4 +147,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
+    detaildiv: {
+        marginLeft: 10,
+        width: 180,
+    }
 });
