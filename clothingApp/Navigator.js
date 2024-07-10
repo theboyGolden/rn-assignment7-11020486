@@ -26,7 +26,7 @@ function DrawerGroup() {
   return (
     <Drawer.Navigator screenOptions={({ navigation }) => CustomHeader({ navigation })}>
       <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Cart" component={CartScreen} options={{ headerShown: false }} />
+      <Drawer.Screen name="Cart" component={CartScreen}  />
       <Drawer.Screen name='Product Details' component={ProductDetailScreen} />
     </Drawer.Navigator>
   );

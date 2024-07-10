@@ -48,18 +48,18 @@ export default function CartScreen({ navigation }) {
         </View>
     );
 
-    const Header = () => (
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 120 }}>
-            <Image source={require('../assets/Logo.png')} style={{ marginLeft: 30 }} />
-            <View style={{ flexDirection: 'row', marginLeft: 80 }}>
-                <Image source={require('../assets/Search.png')} style={{ marginRight: 20 }} />
-            </View>
-        </View>
-    );
+    // const Header = () => (
+    //     <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 120 }}>
+    //         <Image source={require('../assets/Logo.png')} style={{ marginLeft: 30 }} />
+    //         <View style={{ flexDirection: 'row', marginLeft: 80 }}>
+    //             <Image source={require('../assets/Search.png')} style={{ marginRight: 20 }} />
+    //         </View>
+    //     </View>
+    // );
 
     return (
         <SafeAreaView style={styles.container}>
-            <Header />
+            {/* <Header /> */}
             <Text style={{ fontFamily: 'Verdana', fontWeight: '500', fontSize: 26, textAlign: 'center' }}>Checkout</Text>
             <FlatList
                 data={cartItems}
